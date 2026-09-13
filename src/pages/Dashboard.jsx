@@ -1,10 +1,8 @@
-import { useState } from "react";
 import SummaryCard from "../components/SummaryCard";
-import transactionsData from "../data/transactions";
+import TransactionItem from "../components/TransactionItem";
 
-function Dashboard() {
-     const [transactions, setTransactions] = useState(transactionsData);
-
+function Dashboard({ transactions }) {
+  
   const totalIncome = transactions
     .filter((transaction) => transaction.type === "income")
     .reduce((total, transaction) => total + transaction.amount, 0);
@@ -25,6 +23,17 @@ function Dashboard() {
         <SummaryCard title="Income" amount={totalIncome} />
         <SummaryCard title="Expenses" amount={totalExpenses} />
       </div>
+
+      <div className="transactions-section">
+  <h2>Recent Transactions</h2>
+
+  {transactions.map((transaction) => (
+    <TransactionItem
+      key={transaction.id}
+      transaction={transaction}
+    />
+  ))}
+</div>
     </div>
   );
 }

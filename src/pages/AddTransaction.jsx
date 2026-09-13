@@ -1,15 +1,32 @@
 import { useState } from "react";
 
-function AddTransaction() {
+function AddTransaction({ setTransactions }) {
   const [title, setTitle] = useState("");
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("Food");
   const [type, setType] = useState("expense");
 
-  const handleSubmit = (event) => {
+const handleSubmit = (event) => {
   event.preventDefault();
 
-  console.log("Form submitted");
+  const newTransaction = {
+    id: Date.now(),
+    title,
+    amount: Number(amount),
+    category,
+    type,
+    date: new Date().toISOString().split("T")[0],
+  };
+
+  setTransactions((currentTransactions) => [
+    ...currentTransactions,
+    newTransaction,
+  ]);
+
+  setTitle("");
+  setAmount("");
+  setCategory("Food");
+  setType("expense");
 };
 
   return (
