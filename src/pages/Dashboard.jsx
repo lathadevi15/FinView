@@ -1,8 +1,15 @@
+import { useState } from "react";
 import SummaryCard from "../components/SummaryCard";
 import TransactionItem from "../components/TransactionItem";
+import EditTransactionForm from "../components/EditTransactionForm";
 
-function Dashboard({ transactions }) {
-  
+function Dashboard({
+  transactions,
+  onDeleteTransaction,
+  onEditTransaction,
+}) {
+  const [editingTransaction, setEditingTransaction] = useState(null);
+
   const totalIncome = transactions
     .filter((transaction) => transaction.type === "income")
     .reduce((total, transaction) => total + transaction.amount, 0);
@@ -25,15 +32,27 @@ function Dashboard({ transactions }) {
       </div>
 
       <div className="transactions-section">
-  <h2>Recent Transactions</h2>
+        <h2>Recent Transactions</h2>
 
-  {transactions.map((transaction) => (
-    <TransactionItem
-      key={transaction.id}
-      transaction={transaction}
-    />
-  ))}
-</div>
+        {transactions.map((transaction) => (
+          <div key={transaction.id}>
+            <TransactionItem
+              transaction={transaction}
+              onDelete={onDeleteTransaction}
+              onEdit={setEditingTransaction}
+            />
+
+            {editingTransaction?.id === transaction.id && (
+              <EditTransactionForm
+                key={editingTransaction.id}
+                transaction={editingTransaction}
+                onSave={onEditTransaction}
+                onCancel={() => setEditingTransaction(null)}
+              />
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

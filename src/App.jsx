@@ -18,7 +18,23 @@ import "./App.css";
 
 function App() {
   const [transactions, setTransactions] = useState(transactionsData);
+const handleDeleteTransaction = (id) => {
+  setTransactions((currentTransactions) =>
+    currentTransactions.filter(
+      (transaction) => transaction.id !== id
+    )
+  );
+};
 
+const handleEditTransaction = (updatedTransaction) => {
+  setTransactions((currentTransactions) =>
+    currentTransactions.map((transaction) =>
+      transaction.id === updatedTransaction.id
+        ? updatedTransaction
+        : transaction
+    )
+  );
+};
   return (
     <BrowserRouter>
       <div className="app">
@@ -33,12 +49,20 @@ function App() {
 
   <Route
     path="/dashboard"
-    element={<Dashboard transactions={transactions} />}
+    element={<Dashboard
+  transactions={transactions}
+  onDeleteTransaction={handleDeleteTransaction}
+   onEditTransaction={handleEditTransaction}
+/>}
   />
 
   <Route
   path="/transactions"
-  element={<Transactions transactions={transactions} />}
+  element={<Transactions
+  transactions={transactions}
+  onDeleteTransaction={handleDeleteTransaction}
+   onEditTransaction={handleEditTransaction}
+/>}
 /><Route
     path="/transactions"
     element={<Transactions />}
