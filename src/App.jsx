@@ -68,10 +68,14 @@ const handleEditTransaction = (updatedTransaction) => {
     element={<Transactions />}
   />
 
-  <Route
-    path="/categories"
-    element={<Categories />}
-  />
+ <Route
+  path="/categories"
+  element={
+    <Categories
+      transactions={transactions}
+    />
+  }
+/>
 
   <Route
     path="/add"
