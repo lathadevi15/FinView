@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   BrowserRouter,
   Routes,
@@ -12,12 +12,22 @@ import Sidebar from "./components/Sidebar";
 import Dashboard from "./pages/Dashboard";
 import AddTransaction from "./pages/AddTransaction";
 
-import transactionsData from "./data/transactions";
 
 import "./App.css";
 
 function App() {
-  const [transactions, setTransactions] = useState(transactionsData);
+  const [transactions, setTransactions] = useState(() => {
+  try {
+    const savedTransactions = localStorage.getItem("transactions");
+
+    return savedTransactions
+      ? JSON.parse(savedTransactions)
+      : [];
+  } catch (error) {
+    console.error("Failed to load transactions:", error);
+    return [];
+  }
+});
 const handleDeleteTransaction = (id) => {
   setTransactions((currentTransactions) =>
     currentTransactions.filter(

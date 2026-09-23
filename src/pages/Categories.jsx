@@ -1,3 +1,5 @@
+import CategoryCard from "../components/CategoryCard";
+
 function Categories({ transactions }) {
   const expenses = transactions.filter(
     (transaction) => transaction.type === "expense"
@@ -19,13 +21,14 @@ function Categories({ transactions }) {
     <div>
       <h1>Categories</h1>
 
-      <div>
+      <div className="category-cards">
         {Object.entries(categoryTotals).map(
           ([category, amount]) => (
-            <div key={category}>
-              <h3>{category}</h3>
-              <p>₹{amount}</p>
-            </div>
+            <CategoryCard
+              key={category}
+              category={category}
+              amount={amount}
+            />
           )
         )}
       </div>
